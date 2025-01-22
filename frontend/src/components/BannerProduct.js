@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import image1 from '../assest/banner/img1.webp'
 import image2 from '../assest/banner/img2.webp'
 import image3 from '../assest/banner/img3.jpg'
@@ -35,17 +35,17 @@ const BannerProduct = () => {
         image5Mobile
     ]
 
-    const nextImage = () =>{
+    const nextImage = useCallback(() => {
         if(desktopImages.length - 1 > currentImage){
             setCurrentImage(preve => preve + 1)
         }
-    }
+    }, [currentImage, desktopImages.length])
 
-    const preveImage = () =>{
-        if(currentImage != 0){
-            setCurrentImage(preve => preve - 1)
-        }
+    function preveImage() {
+    if (currentImage !== 0) {
+        setCurrentImage(preve => preve - 1)
     }
+}
 
 
     useEffect(()=>{
@@ -58,7 +58,7 @@ const BannerProduct = () => {
         },5000)
 
         return ()=> clearInterval(interval)
-    },[currentImage])
+    },[currentImage, desktopImages.length, nextImage])
 
   return (
     <div className='container mx-auto px-4 rounded '>
@@ -77,7 +77,7 @@ const BannerProduct = () => {
                         desktopImages.map((imageURl,index)=>{
                             return(
                             <div className='w-full h-full min-w-full min-h-full transition-all' key={imageURl} style={{transform : `translateX(-${currentImage * 100}%)`}}>
-                                <img src={imageURl} className='w-full h-full'/>
+                                <img src={imageURl} className='w-full h-full' alt=""/>
                             </div>
                             )
                         })
@@ -91,7 +91,7 @@ const BannerProduct = () => {
                         mobileImages.map((imageURl,index)=>{
                             return(
                             <div className='w-full h-full min-w-full min-h-full transition-all' key={imageURl} style={{transform : `translateX(-${currentImage * 100}%)`}}>
-                                <img src={imageURl} className='w-full h-full object-cover'/>
+                                <img src={imageURl} className='w-full h-full object-cover' alt=""/>
                             </div>
                             )
                         })
