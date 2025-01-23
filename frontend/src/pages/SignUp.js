@@ -1,16 +1,10 @@
 import React, { useState } from 'react'
-import loginIcons from '../assests/signin.gif'
+import loginIcons from '../assest/signin.gif'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import imageTobase64 from '../helpers/imageTobase64';
-const SummaryApi = {
-  signUP: {
-    url: 'your-signup-endpoint-url',
-    method: 'POST'
-  },
-  // other API endpoints
-};
+import SummaryApi from '../common';
 import { toast } from 'react-toastify';
 
 const SignUp = () => {

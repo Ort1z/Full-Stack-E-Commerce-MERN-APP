@@ -13,7 +13,7 @@ const AdminPanel = () => {
         if(user?.role !== ROLE.ADMIN){
             navigate("/")
         }
-    },[navigate, user])
+    },[user])
 
   return (
     <div className='min-h-[calc(100vh-120px)] md:flex hidden'>
