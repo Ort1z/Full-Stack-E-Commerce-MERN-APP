@@ -1,5 +1,5 @@
 import React from 'react';
-import DLogo from '../assest/DeveloperLogo.jpg'
+import DLogo from '../assests/DeveloperLogo.jpg'
 import { Mail, Phone, User } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaX} from 'react-icons/fa';
 
