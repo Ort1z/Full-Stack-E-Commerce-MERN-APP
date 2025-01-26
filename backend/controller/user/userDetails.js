@@ -1,9 +1,17 @@
-const userModel = require("../../models/userModel")
+import { findById } from "../../models/userModel"
 
 async function userDetailsController(req,res){
     try{
-        console.log("userId",req.userId)
-        const user = await userModel.findById(req.userId)
+        const userId = req.userId;
+        if (!userId) {
+            return res.status(400).json({
+                message: "User ID is required",
+                error: true,
+                success: false
+            });
+        }
+        console.log("userId", userId);
+        const user = await findById(userId);
 
         res.status(200).json({
             data : user,
@@ -23,4 +31,4 @@ async function userDetailsController(req,res){
     }
 }
 
-module.exports = userDetailsController
+export default userDetailsController
