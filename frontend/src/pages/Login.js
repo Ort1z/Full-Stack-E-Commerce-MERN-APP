@@ -31,28 +31,38 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const dataResponse = await fetch(SummaryApi.signIn.url, {
-            method: SummaryApi.signIn.method,
-            credentials: 'include',
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(data)
-        })
-
-        const dataApi = await dataResponse.json()
-
-        if (dataApi.success) {
-            toast.success(dataApi.message)
-            navigate('/')
-            fetchUserDetails()
-            fetchUserAddToCart()
+        if (!SummaryApi.signIn) {
+            toast.error("Sign-in API configuration is missing.")
+            return
         }
 
-        if (dataApi.error) {
-            toast.error(dataApi.message)
-        }
+        try {
+            const dataResponse = await fetch(SummaryApi.signIn.url, {
+                method: SummaryApi.signIn.method,
+                credentials: 'include',
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
 
+            if (!dataResponse.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const dataApi = await dataResponse.json()
+
+            if (dataApi.success) {
+                toast.success(dataApi.message)
+                navigate('/')
+                fetchUserDetails()
+                fetchUserAddToCart()
+            } else {
+                toast.error(dataApi.message)
+            }
+        } catch (error) {
+            toast.error("Failed to fetch: " + error.message)
+        }
     }
 
     console.log("data login", data)

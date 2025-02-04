@@ -1,151 +1,164 @@
-import { useState } from 'react'
-import loginIcons from '../assests/signin.gif'
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
+import React, { useState } from 'react';
+import loginIcons from '../assests/signin.gif';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import imageTobase64 from '../helpers/imageTobase64';
 import { toast } from 'react-toastify';
+import SummaryApi from '../common'; // Add this line
 
 const SignUp = () => {
-    const [showPassword, setShowPassword] = useState(false)
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-    const [data, setData] = useState({
-        email: "",
-        password: "",
-        name: "",
-        confirmPassword: "",
-        profilePic: "",
+  const [showPassword,setShowPassword] = useState(false)
+  const [showConfirmPassword,setShowConfirmPassword] = useState(false)
+  const [data,setData] = useState({
+      email : "",
+      password : "",
+      name : "",
+      confirmPassword : "",
+      profilePic : "",
+  })
+  const navigate = useNavigate()
+
+  const handleOnChange = (e) =>{
+      const { name , value } = e.target
+
+      setData((preve)=>{
+          return{
+              ...preve,
+              [name] : value
+          }
+      })
+  }
+
+  const handleUploadPic = async(e) =>{
+    const file = e.target.files[0]
+    
+    const imagePic = await imageTobase64(file)
+    
+    setData((preve)=>{
+      return{
+        ...preve,
+        profilePic : imagePic
+      }
     })
-    const navigate = useNavigate()
 
-    const handleOnChange = (e) => {
-        const { name, value } = e.target
+  }
 
-        setData((preve) => {
-            return {
-                ...preve,
-                [name]: value
-            }
-        })
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const handleUploadPic = async (e) => {
-        const file = e.target.files[0]
-
-        const imagePic = await imageTobase64(file)
-
-        setData((preve) => {
-            return {
-                ...preve,
-                profilePic: imagePic
-            }
-        })
-
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (data.password !== data.confirmPassword) {
-            toast.error("Passwords do not match");
-            return;
-        }
-        try {
-            const response = await fetch('http://localhost:8080/api/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: data.email,
-                    password: data.password,
-                    name: data.name,
-                    profilePic: data.profilePic,
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const result = await response.json();
-            console.log('Signup successful:', result);
-            toast.success("Signup successful");
-            navigate('/login');
-        } catch (error) {
-            console.error('Error:', error.message);
-            toast.error("Signup failed");
-        }
+    const formData = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      profilePic: data.profilePic
     };
 
-    return (
-        <section id='signup'>
-            <div className='mx-auto container p-4'>
+    console.log("Form Data:", formData); // Log the data
 
-                <div className='bg-white p-5 w-full max-w-sm mx-auto'>
+    if (data.password.length < 6) {
+        toast.error("Password must be at least 6 characters long");
+        return;
+    }
+
+    if (data.password === data.confirmPassword) {
+        try {
+            const response = await fetch(SummaryApi.signUP.url, {
+                method: SummaryApi.signUP.method,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const dataApi = await response.json();
+
+            if (!response.ok) {
+                console.error("Signup Error:", dataApi);
+                throw new Error(dataApi.message || "Failed to fetch");
+            }
+
+            console.log("Signup Success:", dataApi);
+            toast.success(dataApi.message || "Signup successful");
+            navigate("/login");
+        } catch (error) {
+            toast.error(error.message || "Failed to connect to the server. Please try again.");
+            console.error("Signup Error:", error);
+        }
+    } else {
+        toast.error("Please check password and confirm password");
+    }
+  };
+
+  return (
+    <section id='signup'>
+        <div className='mx-auto container p-4'>
+
+
+            <div className='bg-white p-5 w-full max-w-sm mx-auto'>
 
                     <div className='w-20 h-20 mx-auto relative overflow-hidden rounded-full'>
                         <div>
-                            <img src={data.profilePic || loginIcons} alt='login icons' />
+                            <img src={data.profilePic || loginIcons} alt='login icons'/>
                         </div>
                         <form>
-                            <label>
-                                <div className='text-xs bg-opacity-80 bg-slate-200 pb-4 pt-2 cursor-pointer text-center absolute bottom-0 w-full'>
-                                    Upload  Photo
-                                </div>
-                                <input type='file' className='hidden' onChange={handleUploadPic} />
-                            </label>
+                          <label>
+                            <div className='text-xs bg-opacity-80 bg-slate-200 pb-4 pt-2 cursor-pointer text-center absolute bottom-0 w-full'>
+                              Upload  Photo
+                            </div>
+                            <input type='file' className='hidden' onChange={handleUploadPic}/>
+                          </label>
                         </form>
                     </div>
 
                     <form className='pt-6 flex flex-col gap-2' onSubmit={handleSubmit}>
-                        <div className='grid'>
-                            <label>Name : </label>
-                            <div className='bg-slate-100 p-2'>
-                                <input
-                                    type='text'
-                                    placeholder='enter your name'
-                                    name='name'
-                                    value={data.name}
-                                    onChange={handleOnChange}
-                                    required
-                                    className='w-full h-full outline-none bg-transparent' />
-                            </div>
-                        </div>
+                      <div className='grid'>
+                              <label>Name : </label>
+                              <div className='bg-slate-100 p-2'>
+                                  <input 
+                                      type='text' 
+                                      placeholder='enter your name' 
+                                      name='name'
+                                      value={data.name}
+                                      onChange={handleOnChange}
+                                      required
+                                      className='w-full h-full outline-none bg-transparent'/>
+                              </div>
+                          </div>
                         <div className='grid'>
                             <label>Email : </label>
                             <div className='bg-slate-100 p-2'>
-                                <input
-                                    type='email'
-                                    placeholder='enter email'
+                                <input 
+                                    type='email' 
+                                    placeholder='enter email' 
                                     name='email'
                                     value={data.email}
                                     onChange={handleOnChange}
                                     required
-                                    className='w-full h-full outline-none bg-transparent' />
+                                    className='w-full h-full outline-none bg-transparent'/>
                             </div>
                         </div>
 
                         <div>
                             <label>Password : </label>
                             <div className='bg-slate-100 p-2 flex'>
-                                <input
-                                    type={showPassword ? "text" : "password"}
+                                <input 
+                                    type={showPassword ? "text" : "password"} 
                                     placeholder='enter password'
                                     value={data.password}
-                                    name='password'
+                                    name='password' 
                                     onChange={handleOnChange}
                                     required
-                                    className='w-full h-full outline-none bg-transparent' />
-                                <div className='cursor-pointer text-xl' onClick={() => setShowPassword((preve) => !preve)}>
+                                    className='w-full h-full outline-none bg-transparent'/>
+                                <div className='cursor-pointer text-xl' onClick={()=>setShowPassword((preve)=>!preve)}>
                                     <span>
                                         {
                                             showPassword ? (
-                                                <FaEyeSlash />
+                                                <FaEyeSlash/>
                                             )
-                                                :
-                                                (
-                                                    <FaEye />
-                                                )
+                                            :
+                                            (
+                                                <FaEye/>
+                                            )
                                         }
                                     </span>
                                 </div>
@@ -155,25 +168,25 @@ const SignUp = () => {
                         <div>
                             <label>Confirm Password : </label>
                             <div className='bg-slate-100 p-2 flex'>
-                                <input
-                                    type={showConfirmPassword ? "text" : "password"}
+                                <input 
+                                    type={showConfirmPassword ? "text" : "password"} 
                                     placeholder='enter confirm password'
                                     value={data.confirmPassword}
-                                    name='confirmPassword'
+                                    name='confirmPassword' 
                                     onChange={handleOnChange}
                                     required
-                                    className='w-full h-full outline-none bg-transparent' />
+                                    className='w-full h-full outline-none bg-transparent'/>
 
-                                <div className='cursor-pointer text-xl' onClick={() => setShowConfirmPassword((preve) => !preve)}>
+                                <div className='cursor-pointer text-xl' onClick={()=>setShowConfirmPassword((preve)=>!preve)}>
                                     <span>
                                         {
                                             showConfirmPassword ? (
-                                                <FaEyeSlash />
+                                                <FaEyeSlash/>
                                             )
-                                                :
-                                                (
-                                                    <FaEye />
-                                                )
+                                            :
+                                            (
+                                                <FaEye/>
+                                            )
                                         }
                                     </span>
                                 </div>
@@ -185,12 +198,12 @@ const SignUp = () => {
                     </form>
 
                     <p className='my-5'>Already have account ? <Link to={"/login"} className=' text-red-600 hover:text-red-700 hover:underline'>Login</Link></p>
-                </div>
-
-
             </div>
-        </section>
-    )
+
+
+        </div>
+    </section>
+  )
 }
 
 export default SignUp

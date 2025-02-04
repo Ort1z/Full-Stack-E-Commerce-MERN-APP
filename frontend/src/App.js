@@ -15,30 +15,29 @@ function App() {
   const dispatch = useDispatch()
   const [cartProductCount,setCartProductCount] = useState(0)
 
-  const fetchUserDetails = async () => {
-    try {
-      const response = await fetch('http://localhost:8080/api/user-details');
-      if (!response.ok) throw new Error(`Error: ${response.status} ${response.statusText}`);
-      const data = await response.json();
-      dispatch(setUserDetails(data));
-    } catch (error) {
-      console.error('Error fetching user details:', error.message);
-    }
-  };
+  const fetchUserDetails = async()=>{
+      const dataResponse = await fetch(SummaryApi.current_user.url,{
+        method : SummaryApi.current_user.method,
+        credentials : 'include'
+      })
 
-  const fetchUserAddToCart = async () => {
-    try {
-      const response = await fetch(SummaryApi.addToCartProductCount.url, {
-        method: SummaryApi.addToCartProductCount.method,
-        credentials: 'include'
-      });
-      if (!response.ok) throw new Error(`Error: ${response.status} ${response.statusText}`);
-      const data = await response.json();
-      setCartProductCount(data?.data?.count);
-    } catch (error) {
-      console.error('Error fetching user add to cart:', error.message);
-    }
-  };
+      const dataApi = await dataResponse.json()
+
+      if(dataApi.success){
+        dispatch(setUserDetails(dataApi.data))
+      }
+  }
+
+  const fetchUserAddToCart = async()=>{
+    const dataResponse = await fetch(SummaryApi.addToCartProductCount.url,{
+      method : SummaryApi.addToCartProductCount.method,
+      credentials : 'include'
+    })
+
+    const dataApi = await dataResponse.json()
+
+    setCartProductCount(dataApi?.data?.count)
+  }
 
   useEffect(()=>{
     /**user Details */
