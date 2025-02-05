@@ -10,8 +10,12 @@ const SummaryApi = {
         method : "post"
     },
     current_user : {
-        url : `${backendDomin}/api/user-details`,
+        url : `${backendDomin}/api/current-user`,
         method : "get"
+    },
+    addToCartProductCount: {
+        url: `${backendDomin}/api/cart-count`,
+        method: 'GET'
     },
     logout_user : {
         url : `${backendDomin}/api/userLogout`,

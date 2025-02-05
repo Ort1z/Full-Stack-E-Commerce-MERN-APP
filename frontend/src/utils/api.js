@@ -1,26 +1,21 @@
+
 export const fetchUserDetails = async () => {
   try {
-    const response = await fetch('http://localhost:8080/api/user-details'); // Updated URL
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
-    }
-    return await response.json();
+      const response = await fetch('http://localhost:8080/api/user-details', {
+          credentials: 'include',
+          headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+      });
+      
+      if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+      }
+      
+      return await response.json();
   } catch (error) {
-    console.error('Error fetching user details:', error.message);
-    throw error;
-  }
-};
-
-export const fetchUserAddToCart = async () => {
-  try {
-    const response = await fetch('http://localhost:8080/api/countAddToCartProduct'); // Updated URL
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching user add to cart:', error.message);
-    throw error;
+      console.error('Error fetching user details:', error);
+      throw error;
   }
 };
 

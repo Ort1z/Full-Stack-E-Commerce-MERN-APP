@@ -15,37 +15,61 @@ function App() {
   const dispatch = useDispatch()
   const [cartProductCount,setCartProductCount] = useState(0)
 
-  const fetchUserDetails = async()=>{
-      const dataResponse = await fetch(SummaryApi.current_user.url,{
-        method : SummaryApi.current_user.method,
-        credentials : 'include'
+  const fetchUserDetails = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    try {
+      const dataResponse = await fetch(SummaryApi.current_user.url, {
+        method: SummaryApi.current_user.method,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       })
 
       const dataApi = await dataResponse.json()
 
-      if(dataApi.success){
+      if (dataApi.success) {
         dispatch(setUserDetails(dataApi.data))
       }
+    } catch (error) {
+      console.error("Failed to fetch user details:", error)
+      // Optionally clear token if it's invalid
+      localStorage.removeItem('token')
+    }
   }
 
-  const fetchUserAddToCart = async()=>{
-    const dataResponse = await fetch(SummaryApi.addToCartProductCount.url,{
-      method : SummaryApi.addToCartProductCount.method,
-      credentials : 'include'
-    })
 
-    const dataApi = await dataResponse.json()
+  const fetchUserAddToCart = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
 
-    setCartProductCount(dataApi?.data?.count)
+    try {
+      const dataResponse = await fetch(SummaryApi.addToCartProductCount.url, {
+        method: SummaryApi.addToCartProductCount.method,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      const dataApi = await dataResponse.json()
+
+      setCartProductCount(dataApi?.data?.count)
+    } catch (error) {
+      console.error("Failed to fetch cart count:", error)
+    }
   }
 
-  useEffect(()=>{
-    /**user Details */
-    fetchUserDetails()
-    /**user Details cart product */
-    fetchUserAddToCart()
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      fetchUserDetails()
+      fetchUserAddToCart()
+    }
+  }, [])
 
-  },[])
   return (
     <>
       <Context.Provider value={{
