@@ -3,6 +3,16 @@ import { MdModeEditOutline } from "react-icons/md";
 import AdminEditProduct from './AdminEditProduct';
 import displayINRCurrency from '../helpers/displayCurrency';
 
+/**
+ * AdminProductCard component renders a card for displaying product details in the admin panel.
+ * It allows editing the product details by toggling the edit mode.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.data - The product data to be displayed.
+ * @param {Function} props.fetchdata - Function to fetch updated product data.
+ *
+ * @returns {JSX.Element} The rendered AdminProductCard component.
+ */
 const AdminProductCard = ({
     data,
     fetchdata

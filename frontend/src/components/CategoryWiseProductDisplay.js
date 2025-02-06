@@ -7,6 +7,28 @@ import addToCart from '../helpers/addToCart'
 import Context from '../context'
 import scrollTop from '../helpers/scrollTop'
 
+/**
+ * Component to display products based on category.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {string} props.category - The category of products to display.
+ * @param {string} props.heading - The heading to display above the product list.
+ *
+ * @example
+ * <CategoryWiseProductDisplay category="electronics" heading="Electronics" />
+ *
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @requires useState
+ * @requires useEffect
+ * @requires useContext
+ * @requires Context
+ * @requires fetchCategoryWiseProduct
+ * @requires addToCart
+ * @requires displayINRCurrency
+ * @requires Link
+ */
 const CategroyWiseProductDisplay = ({category, heading}) => {
     const [data,setData] = useState([])
     const [loading,setLoading] = useState(true)

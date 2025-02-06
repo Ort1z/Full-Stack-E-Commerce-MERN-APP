@@ -1,23 +1,48 @@
 const jwt = require('jsonwebtoken');
 
+/**
+ * Middleware to authenticate requests using JWT.
+ *
+ * This middleware checks for a JWT token in the request headers or cookies.
+ * If a valid token is found, it decodes the token and attaches the user ID to the request object.
+ * If no token is found or the token is invalid/expired, it responds with a 401 status code.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ *
+ * @throws {Error} If the token is invalid or expired.
+ *
+ * @example
+ * // Usage in an Express route
+ * app.get('/protected-route', authMiddleware, (req, res) => {
+ *   res.send(`Hello user ${req.userId}`);
+ * });
+ *
+ * @version 1.0.0
+ * @since 2025
+ */
 const authMiddleware = (req, res, next) => {
-    // Get token from header
-    const token = req.header('Authorization')?.replace('Bearer ', '');
-
-    // Check if no token
-    if (!token) {
-        return res.status(401).json({ success: false, message: 'No token, authorization denied' });
-    }
-
     try {
-        // Verify token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const token = req.headers.authorization?.split(' ')[1] || req.cookies.token;
+        
+        if (!token) {
+            return res.status(401).json({
+                message: "Authentication required",
+                error: true,
+                success: false
+            });
+        }
 
-        // Add user from payload
-        req.user = decoded;
+        const decoded = jwt.verify(token, process.env.TOKEN_SECRET_KEY);
+        req.userId = decoded._id;
         next();
-    } catch (err) {
-        res.status(401).json({ success: false, message: 'Token is not valid' });
+    } catch (error) {
+        return res.status(401).json({
+            message: "Invalid or expired token",
+            error: true,
+            success: false
+        });
     }
 };
 

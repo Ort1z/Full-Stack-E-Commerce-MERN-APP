@@ -5,6 +5,40 @@ import moment from 'moment'
 import { MdModeEdit } from "react-icons/md";
 import ChangeUserRole from '../components/ChangeUserRole';
 
+/**
+ * Component to display and manage all users.
+ *
+ * @component
+ * @example
+ * return (
+ *   <AllUsers />
+ * )
+ *
+ * @returns {JSX.Element} The AllUsers component.
+ *
+ * @description
+ * This component fetches and displays a list of all users in a table format. 
+ * It allows updating user roles by opening a modal with user details.
+ *
+ * @function
+ * @name AllUsers
+ *
+ * @property {Array} allUser - State to store the list of all users.
+ * @property {Function} setAllUsers - Function to update the allUser state.
+ * @property {Boolean} openUpdateRole - State to control the visibility of the update role modal.
+ * @property {Function} setOpenUpdateRole - Function to update the openUpdateRole state.
+ * @property {Object} updateUserDetails - State to store the details of the user to be updated.
+ * @property {Function} setUpdateUserDetails - Function to update the updateUserDetails state.
+ * @property {Function} fetchAllUsers - Function to fetch all users from the API.
+ *
+ * @requires useState - React hook to manage state.
+ * @requires useEffect - React hook to perform side effects.
+ * @requires SummaryApi - API configuration for fetching users.
+ * @requires toast - Function to display error messages.
+ * @requires moment - Library to format dates.
+ * @requires MdModeEdit - Icon component for edit button.
+ * @requires ChangeUserRole - Component to change user role.
+ */
 const AllUsers = () => {
     const [allUser,setAllUsers] = useState([])
     const [openUpdateRole,setOpenUpdateRole] = useState(false)

@@ -11,6 +11,69 @@ import { setUserDetails } from '../store/userSlice';
 import ROLE from '../common/role';
 import Context from '../context';
 
+/**
+ * Header component that displays the navigation bar with search functionality, user profile, and cart.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered Header component.
+ * 
+ * @example
+ * <Header />
+ * 
+ * @description
+ * This component renders a fixed header with a logo, search input, user profile, and cart icon.
+ * It uses various hooks from React and Redux to manage state and handle navigation.
+ * 
+ * @function
+ * @name Header
+ * 
+ * @hook
+ * @name useSelector
+ * @description Retrieves the user state from the Redux store.
+ * 
+ * @hook
+ * @name useDispatch
+ * @description Returns the dispatch function from the Redux store.
+ * 
+ * @hook
+ * @name useState
+ * @description Manages the local state for menu display and search input.
+ * 
+ * @hook
+ * @name useContext
+ * @description Retrieves the context value for cart product count.
+ * 
+ * @hook
+ * @name useNavigate
+ * @description Provides navigation functionality.
+ * 
+ * @hook
+ * @name useLocation
+ * @description Retrieves the current location object.
+ * 
+ * @param {Object} state - The current state of the Redux store.
+ * @param {Object} state.user - The user object from the Redux store.
+ * @param {string} state.user._id - The user's unique identifier.
+ * @param {string} state.user.profilePic - The URL of the user's profile picture.
+ * @param {string} state.user.name - The user's name.
+ * @param {string} state.user.role - The user's role (e.g., admin).
+ * 
+ * @param {Object} context - The context object.
+ * @param {number} context.cartProductCount - The number of products in the cart.
+ * 
+ * @param {Object} e - The event object.
+ * @param {Object} e.target - The target element of the event.
+ * @param {string} e.target.value - The value of the search input.
+ * 
+ * @function
+ * @name handleLogout
+ * @description Logs out the user by making an API call and updating the Redux store.
+ * 
+ * @function
+ * @name handleSearch
+ * @description Handles the search input change and navigates to the search results page.
+ */
 const Header = () => {
   const user = useSelector(state => state?.user?.user)
   const dispatch = useDispatch()

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
+const User = require('./models/userModel'); // Add this line
 
 dotenv.config();
 
@@ -27,6 +28,15 @@ app.post('/api/login', async (req, res) => {
     if (!user) {
       return res.status(400).json({ success: false, message: "User not found" });
     }
+    /**
+     * Compares the provided password with the user's stored password.
+     * 
+     * @constant {boolean} isMatch - Indicates whether the provided password matches the stored password.
+     * @async
+     * @function
+     * @param {string} password - The password to compare.
+     * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating if the passwords match.
+     */
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(400).json({ success: false, message: "Invalid credentials" });

@@ -2,6 +2,52 @@ import React, { useEffect, useState } from 'react'
 import SummaryApi from '../common'
 import { Link } from 'react-router-dom'
 
+/**
+ * CategoryList component fetches and displays a list of product categories.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <CategoryList />
+ * )
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * @description
+ * This component fetches product categories from an API and displays them in a scrollable list.
+ * While the data is being fetched, it shows loading placeholders.
+ * 
+ * @function
+ * @name CategoryList
+ * 
+ * @hook
+ * @name useState
+ * @description Manages the state of category products and loading status.
+ * 
+ * @hook
+ * @name useEffect
+ * @description Fetches category products when the component mounts.
+ * 
+ * @async
+ * @function
+ * @name fetchCategoryProduct
+ * @description Fetches category products from the API and updates the state.
+ * 
+ * @returns {Promise<void>}
+ * 
+ * @example
+ * fetchCategoryProduct()
+ * 
+ * @constant
+ * @name categoryLoading
+ * @type {Array<null>}
+ * @description An array used to render loading placeholders.
+ * 
+ * @constant
+ * @name SummaryApi.categoryProduct.url
+ * @type {string}
+ * @description The API endpoint to fetch category products.
+ */
 const CategoryList = () => {
     const [categoryProduct,setCategoryProduct] = useState([])
     const [loading,setLoading] = useState(false)

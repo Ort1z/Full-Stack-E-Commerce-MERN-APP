@@ -9,6 +9,63 @@ import CategroyWiseProductDisplay from '../components/CategoryWiseProductDisplay
 import addToCart from '../helpers/addToCart';
 import Context from '../context';
 
+/**
+ * Component to display the details of a product.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @example
+ * <ProductDetails />
+ *
+ * @description
+ * This component fetches and displays the details of a product, including its images, name, brand, category, description, and prices.
+ * It also provides functionality to zoom in on the product image, add the product to the cart, and buy the product.
+ *
+ * @function
+ * @name ProductDetails
+ *
+ * @hook
+ * @name useState
+ * @description Manages the state of the product details, loading state, active image, zoom image coordinates, and zoom image state.
+ *
+ * @hook
+ * @name useParams
+ * @description Retrieves the product ID from the URL parameters.
+ *
+ * @hook
+ * @name useContext
+ * @description Retrieves the fetchUserAddToCart function from the context.
+ *
+ * @hook
+ * @name useNavigate
+ * @description Provides navigation functionality.
+ *
+ * @hook
+ * @name useEffect
+ * @description Fetches the product details when the component mounts or when the URL parameters change.
+ *
+ * @async
+ * @function fetchProductDetails
+ * @description Fetches the product details from the API and updates the state.
+ *
+ * @function handleMouseEnterProduct
+ * @description Sets the active image when the mouse enters a product image.
+ *
+ * @function handleZoomImage
+ * @description Handles the zoom functionality for the product image.
+ *
+ * @function handleLeaveImageZoom
+ * @description Disables the zoom functionality when the mouse leaves the product image.
+ *
+ * @async
+ * @function handleAddToCart
+ * @description Adds the product to the cart and fetches the updated cart details.
+ *
+ * @async
+ * @function handleBuyProduct
+ * @description Adds the product to the cart, fetches the updated cart details, and navigates to the cart page.
+ */
 const ProductDetails = () => {
   const [data,setData] = useState({
     productName : "",

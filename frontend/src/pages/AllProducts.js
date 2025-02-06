@@ -3,6 +3,22 @@ import UploadProduct from '../components/UploadProduct'
 import SummaryApi from '../common'
 import AdminProductCard from '../components/AdminProductCard'
 
+/**
+ * AllProducts component fetches and displays all products.
+ * 
+ * This component maintains the state for the list of all products and the state for 
+ * controlling the visibility of the upload product modal. It fetches the product data 
+ * from an API and displays it using the AdminProductCard component. It also provides 
+ * a button to open the upload product modal.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <AllProducts />
+ * )
+ * 
+ * @returns {JSX.Element} The AllProducts component.
+ */
 const AllProducts = () => {
   const [openUploadProduct,setOpenUploadProduct] = useState(false)
   const [allProduct,setAllProduct] = useState([])

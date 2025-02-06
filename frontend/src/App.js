@@ -11,6 +11,34 @@ import Context from './context';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from './store/userSlice';
 
+/**
+ * Main application component.
+ * 
+ * This component is responsible for initializing user details and cart product count
+ * by fetching data from the API. It also provides context values for user details
+ * and cart product count to be used throughout the application.
+ * 
+ * @component
+ * 
+ * @example
+ * // Usage example:
+ * <App />
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * @version 1.0.0
+ * 
+ * @remarks
+ * - Ensure your repository is public and well-organized.
+ * - Commit frequently with descriptive messages (e.g., “Implemented user authentication using JWT”).
+ * - Use branches for features (e.g., feature/authentication) and create pull requests for code reviews.
+ * 
+ * @todo
+ * - Implement error handling for fetchUserDetails and fetchUserAddToCart functions.
+ * - Add loading states for API calls.
+ * 
+ * @see {@link https://github.com/your-repo-link} for the repository.
+ */
 function App() {
   const dispatch = useDispatch()
   const [cartProductCount,setCartProductCount] = useState(0)

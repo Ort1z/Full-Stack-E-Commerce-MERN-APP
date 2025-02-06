@@ -6,6 +6,46 @@ import imageTobase64 from '../helpers/imageTobase64';
 import { toast } from 'react-toastify';
 import SummaryApi from '../common'; // Add this line
 
+/**
+ * SignUp component handles the user registration process.
+ * 
+ * @component
+ * 
+ * @example
+ * return (
+ *   <SignUp />
+ * )
+ * 
+ * @returns {JSX.Element} The SignUp component.
+ * 
+ * @description
+ * This component provides a form for users to sign up by entering their name, email, password, and profile picture.
+ * It includes functionality to show/hide passwords, upload a profile picture, and validate the form before submission.
+ * 
+ * @function
+ * @name SignUp
+ * 
+ * @property {boolean} showPassword - State to toggle the visibility of the password field.
+ * @property {boolean} showConfirmPassword - State to toggle the visibility of the confirm password field.
+ * @property {Object} data - State to hold the form data including email, password, name, confirmPassword, and profilePic.
+ * @property {function} setData - Function to update the form data state.
+ * @property {function} navigate - Function to navigate to different routes.
+ * 
+ * @method
+ * @name handleOnChange
+ * @description Updates the form data state when an input field changes.
+ * @param {Object} e - The event object.
+ * 
+ * @method
+ * @name handleUploadPic
+ * @description Handles the profile picture upload and converts it to base64 format.
+ * @param {Object} e - The event object.
+ * 
+ * @method
+ * @name handleSubmit
+ * @description Validates the form data and submits it to the server. Displays success or error messages based on the response.
+ * @param {Object} e - The event object.
+ */
 const SignUp = () => {
   const [showPassword,setShowPassword] = useState(false)
   const [showConfirmPassword,setShowConfirmPassword] = useState(false)

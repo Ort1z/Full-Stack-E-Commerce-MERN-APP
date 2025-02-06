@@ -16,6 +16,26 @@ import { FaAngleRight } from "react-icons/fa6";
 import { FaAngleLeft } from "react-icons/fa6";
 
 
+/**
+ * BannerProduct component displays a carousel of images for both desktop and mobile views.
+ * 
+ * State:
+ * - currentImage: number - The index of the currently displayed image.
+ * 
+ * Arrays:
+ * - desktopImages: array - List of image URLs for desktop view.
+ * - mobileImages: array - List of image URLs for mobile view.
+ * 
+ * Functions:
+ * - nextImage: Increments the currentImage index to show the next image.
+ * - preveImage: Decrements the currentImage index to show the previous image.
+ * 
+ * useEffect:
+ * - Sets an interval to automatically change the image every 5 seconds.
+ * 
+ * Returns:
+ * - JSX to render the carousel with navigation buttons for desktop and tablet views, and a responsive layout for mobile views.
+ */
 const BannerProduct = () => {
     const [currentImage,setCurrentImage] = useState(0)
 

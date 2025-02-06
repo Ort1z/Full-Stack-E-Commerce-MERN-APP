@@ -1,19 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@tailwind base; /* Import Tailwind's base styles */
+@tailwind components; /* Import Tailwind's component styles */
+@tailwind utilities; /* Import Tailwind's utility styles */
 
 body {
-  margin: 0;
+  margin: 0; /* Remove default margin from body */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  @apply bg-slate-100
-
+    sans-serif; /* Use a system font stack for better performance and consistency */
+  -webkit-font-smoothing: antialiased; /* Improve font rendering on WebKit browsers */
+  -moz-osx-font-smoothing: grayscale; /* Improve font rendering on macOS Firefox */
+  @apply bg-slate-100; /* Apply Tailwind's background color utility */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    monospace; /* Use a monospaced font stack for code elements */
 }

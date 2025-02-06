@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authMiddleware = require('../middleware/authMiddleware');
+const 
 const { body, validationResult } = require('express-validator');
 
 // Signup route
-router.post('/signup', [
+router.post('/signup', userSignUpController, [
     body('name').not().isEmpty().withMessage('Name is required'),
     body('email').isEmail().withMessage('Valid email is required'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
@@ -37,12 +38,12 @@ router.post('/signup', [
         res.status(201).json({ message: 'Signup successful', token });
     } catch (err) {
         console.error("Server Error:", err.message);
-        res.status(500).send('Server error');
+        res.status(500).json({ message: 'Server error' });
     }
 });
 
 // Login route
-router.post('/signin', [
+router.post('/signin', userSignInControll, [
     body('email').isEmail().withMessage('Valid email is required'),
     body('password').exists().withMessage('Password is required'),
 ], async (req, res) => {
@@ -67,6 +68,23 @@ router.post('/signin', [
         }
 
         const payload = { userId: user.id };
+        /**
+         * Generates a JSON Web Token (JWT) for user authentication.
+         *
+         * @param {Object} payload - The payload to encode in the JWT.
+         * @param {string} payload.userId - The unique identifier for the user.
+         * @param {string} payload.email - The email address of the user.
+         * @param {string} payload.role - The role of the user (e.g., 'admin', 'user').
+         * @returns {string} The signed JWT.
+         *
+         * @example
+         * const payload = { userId: '12345', email: 'user@example.com', role: 'user' };
+         * const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+         *
+         * @version 1.0.0
+         * @since 2025
+         * @see {@link https://github.com/your-repo/ecommerce-backend|GitHub Repository}
+         */
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         // Set token in HTTP-only cookie

@@ -3,6 +3,20 @@ import DLogo from '../assests/DeveloperLogo.jpg'
 import { Mail, Phone, User } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaX} from 'react-icons/fa';
 
+/**
+ * Footer component for the Maslot Tech website.
+ * 
+ * This component renders the footer section of the website, which includes:
+ * - Company information with contact details.
+ * - Social media links for the shop.
+ * - Quick links to other pages on the website.
+ * - Developer information with links to the developer's social profiles.
+ * - Additional social media links to connect with the developer.
+ * - Copyright notice.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered footer component.
+ */
 const Footer = () => {
   return (
     <footer className="bg-gradient-to-r from-gray-400 to-gray-900 text-white py-12 px-6">

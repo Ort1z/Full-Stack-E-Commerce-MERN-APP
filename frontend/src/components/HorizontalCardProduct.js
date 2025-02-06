@@ -7,21 +7,28 @@ import addToCart from '../helpers/addToCart'
 import Context from '../context'
 
 const HorizontalCardProduct = ({category, heading}) => {
+    // State to hold fetched product data
     const [data,setData] = useState([])
+    // State to manage loading state
     const [loading,setLoading] = useState(true)
+    // Placeholder array for loading state
     const loadingList = new Array(13).fill(null)
 
+    // State to manage scroll position (not used in the current code)
     const [scroll,setScroll] = useState(0)
+    // Ref to access the scrollable element
     const scrollElement = useRef()
 
-
+    // Context to fetch user cart data
     const { fetchUserAddToCart } = useContext(Context)
 
+    // Function to handle adding product to cart
     const handleAddToCart = async(e,id)=>{
        await addToCart(e,id)
        fetchUserAddToCart()
     }
 
+    // Function to fetch product data based on category
     const fetchData = async() =>{
         setLoading(true)
         const categoryProduct = await fetchCategoryWiseProduct(category)
@@ -31,35 +38,35 @@ const HorizontalCardProduct = ({category, heading}) => {
         setData(categoryProduct?.data)
     }
 
+    // Fetch data when the component mounts or category changes
     useEffect(()=>{
         fetchData()
-    },[])
+    },[category])
 
+    // Function to scroll right
     const scrollRight = () =>{
         scrollElement.current.scrollLeft += 300
     }
+    // Function to scroll left
     const scrollLeft = () =>{
         scrollElement.current.scrollLeft -= 300
     }
 
-
   return (
     <div className='container mx-auto px-4 my-6 relative'>
-
             <h2 className='text-2xl font-semibold py-4'>{heading}</h2>
-
                 
            <div className='flex items-center gap-4 md:gap-6 overflow-scroll scrollbar-none transition-all' ref={scrollElement}>
-
+            {/* Scroll buttons */}
             <button  className='bg-white shadow-md rounded-full p-1 absolute left-0 text-lg hidden md:block' onClick={scrollLeft}><FaAngleLeft/></button>
             <button  className='bg-white shadow-md rounded-full p-1 absolute right-0 text-lg hidden md:block' onClick={scrollRight}><FaAngleRight/></button> 
 
            {   loading ? (
-                loadingList.map((product,index)=>{
+                // Display loading placeholders
+                loadingList.map((_,index)=>{
                     return(
-                        <div className='w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-sm shadow flex'>
+                        <div key={index} className='w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-sm shadow flex'>
                             <div className='bg-slate-200 h-full p-4 min-w-[120px] md:min-w-[145px] animate-pulse'>
-
                             </div>
                             <div className='p-4 grid w-full gap-2'>
                                 <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black bg-slate-200 animate-pulse p-1 rounded-full'></h2>
@@ -74,9 +81,10 @@ const HorizontalCardProduct = ({category, heading}) => {
                     )
                 })
            ) : (
-            data.map((product,index)=>{
+            // Display fetched product data
+            data.map((product)=>{
                 return(
-                    <Link to={"product/"+product?._id} className='w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-sm shadow flex'>
+                    <Link key={product._id} to={"product/"+product?._id} className='w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-sm shadow flex'>
                         <div className='bg-slate-200 h-full p-4 min-w-[120px] md:min-w-[145px]'>
                             <img src={product.productImage[0]} className='object-scale-down h-full hover:scale-110 transition-all'/>
                         </div>
@@ -93,11 +101,8 @@ const HorizontalCardProduct = ({category, heading}) => {
                 )
             })
            )
-               
             }
            </div>
-            
-
     </div>
   )
 }

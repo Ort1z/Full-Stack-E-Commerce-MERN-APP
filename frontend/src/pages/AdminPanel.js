@@ -4,6 +4,30 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import ROLE from '../common/role';
 
+/**
+ * AdminPanel component renders the admin panel page.
+ * It displays user information and navigation links for admin functionalities.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * @example
+ * // Usage example:
+ * <AdminPanel />
+ * 
+ * @description
+ * - Uses `useSelector` to get the current user from the Redux store.
+ * - Uses `useNavigate` from `react-router-dom` to navigate to the home page if the user is not an admin.
+ * - Displays user profile picture, name, and role.
+ * - Provides navigation links to "All Users" and "All Products" pages.
+ * - Uses `Outlet` from `react-router-dom` to render nested routes.
+ * 
+ * @requires react
+ * @requires react-redux
+ * @requires react-router-dom
+ * @requires FaRegCircleUser from 'react-icons/fa'
+ */
 const AdminPanel = () => {
     const user = useSelector(state => state?.user?.user)
     const navigate = useNavigate()

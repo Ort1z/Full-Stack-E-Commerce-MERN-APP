@@ -4,6 +4,30 @@ import { IoMdClose } from "react-icons/io";
 import SummaryApi from '../common';
 import { toast } from 'react-toastify';
 
+/**
+ * ChangeUserRole component allows changing the role of a user.
+ *
+ * @component
+ * @param {Object} props - The properties object.
+ * @param {string} props.name - The name of the user.
+ * @param {string} props.email - The email of the user.
+ * @param {string} props.role - The current role of the user.
+ * @param {string} props.userId - The ID of the user.
+ * @param {Function} props.onClose - Function to call when the modal is closed.
+ * @param {Function} props.callFunc - Function to call after the role is updated.
+ *
+ * @example
+ * <ChangeUserRole
+ *   name="John Doe"
+ *   email="john.doe@example.com"
+ *   role="user"
+ *   userId="12345"
+ *   onClose={handleClose}
+ *   callFunc={fetchUsers}
+ * />
+ *
+ * @returns {JSX.Element} The ChangeUserRole component.
+ */
 const ChangeUserRole = ({
     name,
     email,

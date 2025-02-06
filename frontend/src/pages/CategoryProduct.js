@@ -4,6 +4,46 @@ import productCategory from '../helpers/productCategory'
 import VerticalCard from '../components/VerticalCard'
 import SummaryApi from '../common'
 
+/**
+ * CategoryProduct component fetches and displays products based on selected categories and sorting options.
+ * 
+ * @component
+ * 
+ * @example
+ * return (
+ *   <CategoryProduct />
+ * )
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * @description
+ * - Uses `useState` to manage component state for data, loading, selected categories, filtered categories, and sorting option.
+ * - Uses `useNavigate` and `useLocation` from `react-router-dom` to handle navigation and URL parameters.
+ * - Fetches product data from an API based on selected categories.
+ * - Handles category selection and sorting options, updating the URL and fetching data accordingly.
+ * - Displays the fetched products in a vertical card layout.
+ * 
+ * @function fetchData
+ * @async
+ * @description Fetches product data from the API based on the selected categories.
+ * 
+ * @function handleSelectCategory
+ * @param {Object} e - The event object from the checkbox input.
+ * @description Updates the selected categories state based on user input.
+ * 
+ * @function handleOnChangeSortBy
+ * @param {Object} e - The event object from the radio input.
+ * @description Updates the sorting option state and sorts the product data accordingly.
+ * 
+ * @useEffect
+ * @description Fetches data whenever the filtered category list changes.
+ * 
+ * @useEffect
+ * @description Updates the filtered category list and URL whenever the selected categories change.
+ * 
+ * @useEffect
+ * @description Placeholder for future side effects based on the sorting option.
+ */
 const CategoryProduct = () => {
     const [data,setData] = useState([])
     const navigate = useNavigate()

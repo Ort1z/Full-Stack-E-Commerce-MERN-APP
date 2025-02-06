@@ -8,6 +8,57 @@ import { MdDelete } from "react-icons/md";
 import SummaryApi from '../common';
 import {toast} from 'react-toastify'
 
+/**
+ * UploadProduct component allows users to upload product details including images.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {Function} props.onClose - Function to close the upload product modal
+ * @param {Function} props.fetchData - Function to fetch updated product data
+ * 
+ * @returns {JSX.Element} UploadProduct component
+ * 
+ * @example
+ * <UploadProduct onClose={handleClose} fetchData={fetchProductData} />
+ * 
+ * @typedef {Object} ProductData
+ * @property {string} productName - Name of the product
+ * @property {string} brandName - Brand name of the product
+ * @property {string} category - Category of the product
+ * @property {Array<string>} productImage - Array of product image URLs
+ * @property {string} description - Description of the product
+ * @property {string} price - Price of the product
+ * @property {string} sellingPrice - Selling price of the product
+ * 
+ * @typedef {Object} SummaryApi
+ * @property {Object} uploadProduct - API details for uploading product
+ * @property {string} uploadProduct.url - URL for the upload product API
+ * @property {string} uploadProduct.method - HTTP method for the upload product API
+ * 
+ * @function handleOnChange
+ * @description Handles input changes and updates the product data state
+ * @param {Event} e - Event object
+ * 
+ * @function handleUploadProduct
+ * @description Handles the upload of product images to Cloudinary and updates the product image state
+ * @param {Event} e - Event object
+ * 
+ * @function handleDeleteProductImage
+ * @description Handles the deletion of a product image from the product image state
+ * @param {number} index - Index of the image to be deleted
+ * 
+ * @function handleSubmit
+ * @description Handles the submission of the product data to the server
+ * @param {Event} e - Event object
+ * 
+ * @function setOpenFullScreenImage
+ * @description Sets the state to open or close the full-screen image view
+ * @param {boolean} value - Boolean value to open or close the full-screen image view
+ * 
+ * @function setFullScreenImage
+ * @description Sets the URL of the image to be displayed in full-screen view
+ * @param {string} url - URL of the image to be displayed
+ */
 const UploadProduct = ({
     onClose,
     fetchData

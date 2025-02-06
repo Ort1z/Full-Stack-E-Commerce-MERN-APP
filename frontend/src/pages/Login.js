@@ -7,6 +7,55 @@ import SummaryApi from '../common';
 import { toast } from 'react-toastify';
 import Context from '../context';
 
+/**
+ * Login component handles the user login functionality.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered login component.
+ * 
+ * @example
+ * return <Login />
+ * 
+ * @description
+ * This component renders a login form that allows users to enter their email and password to log in.
+ * It includes functionality to show/hide the password, handle form submission, and navigate to different pages.
+ * 
+ * @function
+ * @name Login
+ * 
+ * @property {boolean} showPassword - State to toggle the visibility of the password.
+ * @property {Object} data - State to store the email and password entered by the user.
+ * @property {string} data.email - The email entered by the user.
+ * @property {string} data.password - The password entered by the user.
+ * 
+ * @method
+ * @name handleOnChange
+ * @description Updates the state with the values entered in the form fields.
+ * @param {Object} e - The event object.
+ * 
+ * @method
+ * @name handleSubmit
+ * @description Handles the form submission, sends a login request to the server, and processes the response.
+ * @param {Object} e - The event object.
+ * 
+ * @requires useState
+ * @requires useNavigate
+ * @requires useContext
+ * @requires Context
+ * @requires SummaryApi
+ * @requires toast
+ * @requires FaEye
+ * @requires FaEyeSlash
+ * @requires Link
+ * 
+ * @example
+ * <form onSubmit={handleSubmit}>
+ *   <input type="email" name="email" onChange={handleOnChange} />
+ *   <input type="password" name="password" onChange={handleOnChange} />
+ *   <button type="submit">Login</button>
+ * </form>
+ */
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [data, setData] = useState({
@@ -30,45 +79,34 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        if (!SummaryApi.signIn || !SummaryApi.signIn.url) {
-            toast.error("Sign-in API configuration is missing.")
-            return
-        }
-
         try {
             const response = await fetch(SummaryApi.signIn.url, {
-                method: SummaryApi.signIn.method,
-                credentials: 'include',
+                method: 'POST',
                 headers: {
-                    "content-type": "application/json"
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
             })
 
-            const dataApi = await response.json()
+            const responseData = await response.json()
 
-            if (!response.ok) {
-                if (dataApi.message === 'Invalid credentials') {
-                    toast.error(dataApi.message)
-                } else {
-                    toast.error(dataApi.message || 'Login failed')
-                }
-                return
-            }
-
-            if (dataApi.token) {
-                toast.success("Login successful!")
-                localStorage.setItem('token', dataApi.token)
+            if (response.ok && responseData.success) {
+                // Store the token
+                localStorage.setItem('token', responseData.data)
+                
+                toast.success(responseData.message || 'Login successful!')
+                await fetchUserDetails()
+                await fetchUserAddToCart()
                 navigate('/')
-                fetchUserDetails()
-                fetchUserAddToCart()
             } else {
-                toast.error(dataApi.message || "Login failed")
+                toast.error(responseData.message || 'Login failed')
             }
         } catch (error) {
-            toast.error("Failed to fetch: " + error.message)
+            console.error('Login error:', error)
+            toast.error('Failed to connect to the server')
         }
     }
+
 
     console.log("data login", data)
 

@@ -12,6 +12,23 @@ import ProductDetails from '../pages/ProductDetails'
 import Cart from '../pages/Cart'
 import SearchProduct from '../pages/SearchProduct'
 
+/**
+ * Defines the routes for the application using createBrowserRouter.
+ * 
+ * Routes:
+ * - "/" (root): Renders the App component.
+ *   - "": Renders the Home component.
+ *   - "login": Renders the Login component.
+ *   - "forgot-password": Renders the ForgotPassword component.
+ *   - "sign-up": Renders the SignUp component.
+ *   - "product-category": Renders the CategoryProduct component.
+ *   - "product/:id": Renders the ProductDetails component.
+ *   - "cart": Renders the Cart component.
+ *   - "search": Renders the SearchProduct component.
+ *   - "admin-panel": Renders the AdminPanel component.
+ *     - "all-users": Renders the AllUsers component.
+ *     - "all-products": Renders the AllProducts component.
+ */
 const router = createBrowserRouter([
     {
         path : "/",

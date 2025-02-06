@@ -5,6 +5,32 @@ import Context from '../context'
 import addToCart from '../helpers/addToCart'
 import { Link } from 'react-router-dom'
 
+/**
+ * VerticalCard component renders a list of product cards in a vertical layout.
+ * It displays a loading state with skeleton loaders when data is being fetched.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {boolean} props.loading - Indicates if the data is currently being loaded
+ * @param {Array} [props.data=[]] - Array of product data to be displayed
+ * 
+ * @example
+ * const data = [
+ *   {
+ *     _id: '1',
+ *     productImage: ['image1.jpg'],
+ *     productName: 'Product 1',
+ *     category: 'Category 1',
+ *     sellingPrice: 100,
+ *     price: 120
+ *   },
+ *   // more products
+ * ];
+ * 
+ * <VerticalCard loading={false} data={data} />
+ * 
+ * @returns {JSX.Element} The rendered component
+ */
 const VerticalCard = ({loading,data = []}) => {
     const loadingList = new Array(13).fill(null)
     const { fetchUserAddToCart } = useContext(Context)

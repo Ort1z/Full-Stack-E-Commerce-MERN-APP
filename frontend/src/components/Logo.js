@@ -1,5 +1,13 @@
 import React from 'react'
 
+/**
+ * Logo component renders an SVG logo with customizable width and height.
+ *
+ * @param {Object} props - The properties object.
+ * @param {number|string} props.w - The width of the SVG element.
+ * @param {number|string} props.h - The height of the SVG element.
+ * @returns {JSX.Element} The SVG logo element.
+ */
 const Logo = ({w,h}) => {
   return (
     <svg width={w} height={h}
